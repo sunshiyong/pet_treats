@@ -390,24 +390,14 @@ function checkout() {
     showToast("购物车是空的");
     return;
   }
-
   if (!user || user.isGuest) {
     showToast("🔒 请先登录后再下单");
     openModal("loginModal");
     return;
   }
-
-  var now = new Date();
-  var orderNum = "PN" + now.getFullYear() +
-    String(now.getMonth() + 1).padStart(2, "0") +
-    String(now.getDate()).padStart(2, "0") +
-    String(Math.floor(Math.random() * 10000)).padStart(4, "0");
-
-  document.getElementById("orderNumber").textContent = orderNum;
-  document.getElementById("orderTotal").textContent = "¥" + getCartTotal().toFixed(1);
-
   closeCart();
-  openModal("successModal");
+  renderAddressSelector();
+  openModal("addressSelectorModal");
 }
 
 // ==================== TOAST ====================
@@ -419,6 +409,68 @@ function showToast(msg) {
   window.toastTimer = setTimeout(function() { el.classList.remove("show"); }, 2500);
 }
 
+
+// ==================== ORDER CONFIRMATION ====================
+var _fromCheckout = false;
+
+function confirmOrder() {
+  var selected = document.querySelector('.address-selector-card.selected');
+  if (!selected) {
+    showToast("请选择一个收货地址");
+    return;
+  }
+  var idx = parseInt(selected.dataset.idx);
+  var addr = user.addresses[idx];
+  if (!addr) return;
+
+  var now = new Date();
+  var orderNum = "PN" + now.getFullYear() +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    String(now.getDate()).padStart(2, "0") +
+    String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+
+  document.getElementById("orderNumber").textContent = orderNum;
+  document.getElementById("orderTotal").textContent = "¥" + getCartTotal().toFixed(1);
+
+  closeModal("addressSelectorModal");
+  openModal("successModal");
+}
+
+function renderAddressSelector() {
+  var list = document.getElementById("addressSelectorList");
+  if (!user || !user.addresses || user.addresses.length === 0) {
+    _fromCheckout = true;
+    list.innerHTML = '<div class="address-selector-empty">暂无收货地址<br><span>请先添加地址</span></div>';
+    return;
+  }
+
+  var defaultIdx = -1;
+  for (var i = 0; i < user.addresses.length; i++) {
+    if (user.addresses[i].isDefault) { defaultIdx = i; break; }
+  }
+  if (defaultIdx === -1 && user.addresses.length > 0) defaultIdx = 0;
+
+  list.innerHTML = user.addresses.map(function(addr, idx) {
+    var isDefault = addr.isDefault;
+    var selected = idx === defaultIdx ? ' selected' : '';
+    return '<div class="address-selector-card' + selected + '" data-idx="' + idx + '">' +
+      '<div class="address-selector-card__row">' +
+      '<span class="radio-dot"></span>' +
+      '<div class="address-selector-card__info">' +
+      '<div class="address-selector-card__name">' + addr.name +
+      (isDefault ? ' <span class="address-selector-card__badge">默认</span>' : '') +
+      '<span class="address-selector-card__phone">  📞 ' + addr.phone + '</span></div>' +
+      '<div class="address-selector-card__detail">' + addr.detail + '</div>' +
+      '</div></div></div>';
+  }).join('');
+
+  list.querySelectorAll('.address-selector-card').forEach(function(el) {
+    el.addEventListener('click', function() {
+      list.querySelectorAll('.address-selector-card').forEach(function(c) { c.classList.remove('selected'); });
+      this.classList.add('selected');
+    });
+  });
+}
 // ==================== USER SYSTEM ====================
 function initUserState() {
   var gate = document.getElementById("loginGate");
@@ -816,9 +868,45 @@ function bindEvents() {
       }
       saveUser();
       closeModal("addressFormModal");
-      renderAddresses();
-      openModal("addressModal");
+      if (_fromCheckout) {
+        _fromCheckout = false;
+        renderAddressSelector();
+        openModal("addressSelectorModal");
+      } else {
+        renderAddresses();
+        openModal("addressModal");
+      }
     });
+  }
+
+
+  // Address selector modal (checkout flow)
+  var addressSelectorClose = document.getElementById("addressSelectorClose");
+  if (addressSelectorClose) {
+    addressSelectorClose.addEventListener("click", function() { closeModal("addressSelectorModal"); });
+  }
+  var addressSelectorModal = document.getElementById("addressSelectorModal");
+  if (addressSelectorModal) {
+    addressSelectorModal.addEventListener("click", function(e) {
+      if (e.target === this) closeModal("addressSelectorModal");
+    });
+  }
+  var addressSelectorAddBtn = document.getElementById("addressSelectorAddBtn");
+  if (addressSelectorAddBtn) {
+    addressSelectorAddBtn.addEventListener("click", function() {
+      _fromCheckout = true;
+      document.getElementById("addressFormTitle").textContent = "添加新地址";
+      document.getElementById("addressFormId").value = "";
+      document.getElementById("addrName").value = "";
+      document.getElementById("addrPhone").value = "";
+      document.getElementById("addrDetail").value = "";
+      closeModal("addressSelectorModal");
+      openModal("addressFormModal");
+    });
+  }
+  var addressSelectorConfirmBtn = document.getElementById("addressSelectorConfirmBtn");
+  if (addressSelectorConfirmBtn) {
+    addressSelectorConfirmBtn.addEventListener("click", confirmOrder);
   }
 
   // Nav active on scroll
