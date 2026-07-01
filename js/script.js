@@ -74,6 +74,28 @@ const PRODUCTS = [
   }
 ];
 
+
+
+// ==================== PRODUCT HELPERS ====================
+function getAllProducts() {
+  var admin = [];
+  try { var d = localStorage.getItem("lanhe-products"); if (d) admin = JSON.parse(d); } catch(e) {}
+  var nextId = 100;
+  admin = admin.map(function(p, i) {
+    if (!p.id) p.id = nextId + i;
+    if (!p.image) p.image = p.emoji ? "" : "assets/images/product-01.svg";
+    if (!p.petTypes) p.petTypes = ["cat", "dog"];
+    if (!p.sales) p.sales = 0;
+    if (!p.bullets) p.bullets = [];
+    if (!p.ingredients) p.ingredients = "天然食材";
+    if (!p.palatability) p.palatability = ["待评估"];
+    if (!p.spec) p.spec = "标准规格";
+    if (!p.emoji) p.emoji = "🥩";
+    return p;
+  });
+  return PRODUCTS.concat(admin);
+}
+
 // ==================== STATE ====================
 let user = JSON.parse(localStorage.getItem("pnUser") || "null");
 let cart = JSON.parse(localStorage.getItem("pnCart") || "[]");
@@ -101,7 +123,7 @@ function filterByPet(products, pet) {
 }
 
 function getAvailableFoodCategories(pet) {
-  var filtered = pet === "all" ? PRODUCTS : filterByPet(PRODUCTS, pet);
+  var allP = getAllProducts(); var filtered = pet === "all" ? allP : filterByPet(allP, pet);
   var cats = {};
   filtered.forEach(function(p) { cats[p.category] = true; });
   return Object.keys(cats);
@@ -129,7 +151,7 @@ function updateFoodFilterBar(pet) {
 
 function renderProducts(pet, food) {
   var grid = document.getElementById("productGrid");
-  var byPet = filterByPet(PRODUCTS, pet);
+  var byPet = filterByPet(getAllProducts(), pet);
   var filtered = food === "all" ? byPet : byPet.filter(function(p) { return p.category === food; });
 
   if (filtered.length === 0) {
@@ -173,7 +195,7 @@ function renderProducts(pet, food) {
 
 function renderHotProducts() {
   var grid = document.getElementById("hotGrid");
-  var top3 = PRODUCTS.slice().sort(function(a, b) { return b.sales - a.sales; }).slice(0, 3);
+  var top3 = getAllProducts().slice().sort(function(a, b) { return b.sales - a.sales; }).slice(0, 3);
   var rankIcons = ["🥇", "🥈", "🥉"];
   grid.innerHTML = top3.map(function(p, i) {
     return '<div class="hot-card" data-id="' + p.id + '">' +
@@ -339,9 +361,7 @@ function closeCart() {
 
 // ==================== PRODUCT DETAIL ====================
 function getProduct(id) {
-  for (var i = 0; i < PRODUCTS.length; i++) {
-    if (PRODUCTS[i].id === id) return PRODUCTS[i];
-  }
+  var allP = getAllProducts(); for (var i = 0; i < allP.length; i++) { if (allP[i].id === id) return allP[i]; }
   return null;
 }
 
@@ -431,6 +451,26 @@ function confirmOrder() {
 
   document.getElementById("orderNumber").textContent = orderNum;
   document.getElementById("orderTotal").textContent = "¥" + getCartTotal().toFixed(1);
+
+
+  // Save order to localStorage
+  var items = cart.map(function(item) {
+    var p = getProduct(item.id);
+    return { productId: item.id, productName: p ? p.name : "未知", qty: item.qty, price: p ? p.price : 0 };
+  });
+  var order = {
+    id: orderNum,
+    createdAt: new Date().toISOString(),
+    customer: user.username || "用户",
+    address: { name: addr.name, phone: addr.phone, detail: addr.detail },
+    items: items,
+    total: getCartTotal(),
+    status: "待配送"
+  };
+  var orders = [];
+  try { var d = localStorage.getItem("lanhe-orders"); if (d) orders = JSON.parse(d); } catch(e) {}
+  orders.unshift(order);
+  localStorage.setItem("lanhe-orders", JSON.stringify(orders));
 
   closeModal("addressSelectorModal");
   openModal("successModal");

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PetNurture — 管理后台</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+body{background:#FDFBF7;padding-top:70px}
+.admin-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(253,251,247,.94);border-bottom:1px solid #F0EDE8}
+.admin-header__inner{display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
+.admin-header__nav{display:flex;gap:16px;align-items:center}
+.admin-header__nav a{font-size:.88rem;color:#6B6B6B;text-decoration:none;cursor:pointer}
+.admin-header__nav a:hover,.admin-header__nav a.active{color:#84A98C}
+.admin-section{max-width:1200px;margin:0 auto;padding:24px 20px}
+.admin-section h2{font-size:1.2rem;font-weight:700;margin-bottom:16px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:#fff;border:1px solid #F0EDE8;border-radius:12px;padding:20px 24px;text-align:center}
+.stat-card__label{font-size:.8rem;color:#9A9A9A;margin-bottom:6px}
+.stat-card__value{font-size:1.8rem;font-weight:800;color:#2D2D2D}
+.stat-card__value.accent{color:#84A98C}
+.admin-table-wrap{overflow-x:auto;background:#fff;border:1px solid #F0EDE8;border-radius:12px;margin-bottom:32px}
+.admin-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.admin-table th{background:#E8F0E9;padding:12px 16px;text-align:left;font-weight:600;font-size:.8rem;color:#2D2D2D;white-space:nowrap}
+.admin-table td{padding:10px 16px;border-top:1px solid #F0EDE8;color:#6B6B6B}
+.admin-table tr:hover td{background:#FAFAF8}
+.admin-table .num{font-weight:600;color:#2D2D2D;text-align:right}
+.admin-table .order-items{font-size:.78rem;color:#9A9A9A}
+.status-badge{display:inline-block;font-size:.72rem;padding:3px 10px;border-radius:100px;font-weight:500}
+.status-badge--delivering{background:#FFF3E0;color:#E65100}
+.status-badge--completed{background:#E8F5E9;color:#2E7D32}
+.form-card{background:#fff;border:1px solid #F0EDE8;border-radius:12px;padding:28px 32px;margin-bottom:32px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid .full{grid-column:1/-1}
+.form-grid .form-group label{display:block;font-size:.8rem;font-weight:600;margin-bottom:4px;color:#2D2D2D}
+.form-grid .form-group input,.form-grid .form-group select,.form-grid .form-group textarea{width:100%;padding:10px 14px;border:1.5px solid #E5E0D8;border-radius:6px;font-size:.88rem;background:#fff;outline:none;transition:border .2s;box-sizing:border-box}
+.form-grid .form-group input:focus,.form-grid .form-group select:focus,.form-grid .form-group textarea:focus{border-color:#84A98C}
+.form-grid .form-group textarea{resize:vertical;min-height:60px;font-family:inherit}
+.form-actions{display:flex;gap:12px;margin-top:20px;justify-content:flex-end}
+.form-actions .btn{padding:10px 28px;font-size:.88rem}
+.preview-grid{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.preview-card{background:#fff;border:1px solid #F0EDE8;border-radius:12px;padding:16px;text-align:center;width:140px}
+.preview-card__emoji{font-size:2rem;margin-bottom:6px}
+.preview-card__name{font-size:.78rem;color:#2D2D2D;font-weight:500;margin-bottom:2px}
+.preview-card__price{font-size:.82rem;color:#84A98C;font-weight:600}
+.checkbox-group{display:flex;gap:20px;padding-top:6px}
+.checkbox-group label{font-size:.85rem;cursor:pointer}
+@media(max-width:640px){
+.form-grid{grid-template-columns:1fr}
+.admin-section{padding:16px 12px}
+.stats-grid{grid-template-columns:1fr 1fr}
+.stat-card__value{font-size:1.3rem}
+.admin-header__nav{gap:8px}
+.admin-header__nav a{font-size:.78rem}
+}
+</style>
+</head>
+<body>
+<div class="admin-header"><div class="admin-header__inner">
+<a href="#" class="logo">Pet<span style="color:#84A98C">Nurture</span> <span style="font-size:.7rem;color:#9A9A9A;font-weight:400;">管理后台</span></a>
+<div class="admin-header__nav"><a href="index.html">← 返回商城</a><a class="active" data-tab="overview">概览</a><a data-tab="orders">订单管理</a><a data-tab="products">商品管理</a><a data-tab="add">上架新品</a></div></div></div>
+
+<div class="admin-section" id="tab-overview"><h2>经营概览</h2><div class="stats-grid" id="statsGrid"></div>
+<h2 style="margin-top:28px">商品销量排行</h2><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>排名</th><th>商品</th><th>分类</th><th>总销量</th><th>销售额</th></tr></thead><tbody id="salesRankingBody"></tbody></table></div>
+<h2 style="margin-top:28px">商品销售明细</h2><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>商品名称</th><th>分类</th><th>单价</th><th>默认销量</th><th>订单销量</th><th>总销量</th><th>总销售额</th></tr></thead><tbody id="salesDetailBody"></tbody></table></div></div>
+
+<div class="admin-section" id="tab-orders" style="display:none"><h2>订单管理</h2><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>订单号</th><th>下单时间</th><th>客户</th><th>收货地址</th><th>商品明细</th><th>金额</th><th>状态</th></tr></thead><tbody id="orderListBody"></tbody></table></div></div>
+
+<div class="admin-section" id="tab-products" style="display:none"><h2>已上架商品</h2><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>商品名称</th><th>食品分类</th><th>宠物分类</th><th>价格</th><th>规格</th><th>销量</th></tr></thead><tbody id="adminProductsBody"></tbody></table></div></div>
+
+<div class="admin-section" id="tab-add" style="display:none"><h2>上架新品</h2>
+<div class="form-card"><div class="form-grid">
+<div class="form-group"><label>商品名称</label><input type="text" id="newName" placeholder="例: 鸡肉蔬菜棒"></div>
+<div class="form-group"><label>食品分类</label><select id="newCategory"><option value="鸡肉">鸡肉</option><option value="冻干">冻干</option><option value="洁齿">洁齿</option><option value="训练奖励">训练奖励</option></select></div>
+<div class="full"><label style="display:block;font-size:.8rem;font-weight:600;margin-bottom:4px;color:#2D2D2D">适用宠物</label><div class="checkbox-group"><label><input type="checkbox" id="newPetCat" checked> 猫猫</label><label><input type="checkbox" id="newPetDog" checked> 狗狗</label></div></div>
+<div class="form-group"><label>价格 (¥)</label><input type="number" id="newPrice" step="0.1" min="0" placeholder="49.9"></div>
+<div class="form-group"><label>规格</label><input type="text" id="newSpec" placeholder="150g / 袋"></div>
+<div class="form-group"><label>商品图标</label><select id="newEmoji"><option value="🍗">🍗 肉类</option><option value="🥩">🥩 肉干</option><option value="🐟">🐟 鱼类</option><option value="🦷">🦷 洁齿</option><option value="🥞">🥞 饼干</option><option value="🍪">🍪 小食</option></select></div>
+<div class="form-group"><label>商品图片</label><select id="newImage"><option value="assets/images/product-01.svg">鸡肉</option><option value="assets/images/product-02.svg">鸭肉</option><option value="assets/images/product-03.svg">鱼类</option><option value="assets/images/product-04.svg">冻干</option><option value="assets/images/product-05.svg">洁齿</option><option value="assets/images/product-06.svg">洁齿骨</option><option value="assets/images/product-07.svg">零食</option><option value="assets/images/product-08.svg">能量粒</option></select></div>
+<div class="full"><div class="form-group"><label>卖点（每行一条）</label><textarea id="newBullets" rows="3" placeholder="精选优质食材..."></textarea></div></div>
+<div class="full"><div class="form-group"><label>成分</label><input type="text" id="newIngredients" placeholder="鸡肉 100%"></div></div>
+<div class="full"><div class="form-group"><label>适口性（每行一条）</label><textarea id="newPalatability" rows="2" placeholder="🐾 狗狗★★★★★"></textarea></div></div>
+</div>
+<div class="form-actions"><button class="btn btn--outline" id="previewBtn">预览</button><button class="btn btn--primary" id="saveProductBtn">上架商品</button></div></div>
+<div id="previewArea" style="display:none"><h2>预览</h2><div class="preview-grid" id="previewGrid"></div></div>
+</div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>
