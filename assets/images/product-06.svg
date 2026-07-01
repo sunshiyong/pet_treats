@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bg06" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDFBF7"/><stop offset="100%" stop-color="#F5F0E8"/>
+    </linearGradient>
+    <linearGradient id="spiral" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#B0C8A8"/><stop offset="50%" stop-color="#98B890"/><stop offset="100%" stop-color="#80A878"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg06)"/>
+  <ellipse cx="200" cy="340" rx="140" ry="18" fill="rgba(0,0,0,0.06)"/>
+  <ellipse cx="200" cy="340" rx="90" ry="12" fill="rgba(0,0,0,0.08)"/>
+  <g transform="translate(200,220)">
+    <path d="M-40,0 C-40,-30 40,-30 40,0 C40,30 -40,30 -40,0" fill="none" stroke="url(#spiral)" stroke-width="18" stroke-linecap="round"/>
+    <line x1="-30" y1="-20" x2="-30" y2="20" stroke="#80A878" stroke-width="14" stroke-linecap="round" opacity="0.6"/>
+    <line x1="30" y1="-20" x2="30" y2="20" stroke="#80A878" stroke-width="14" stroke-linecap="round" opacity="0.6"/>
+    <path d="M-25,-5 C-10,-20 10,-20 25,-5" fill="none" stroke="url(#spiral)" stroke-width="16" stroke-linecap="round"/>
+    <path d="M-25,5 C-10,20 10,20 25,5" fill="none" stroke="url(#spiral)" stroke-width="16" stroke-linecap="round"/>
+    <ellipse cx="-15" cy="0" rx="8" ry="18" fill="#A8C8A0" opacity="0.5"/>
+    <ellipse cx="15" cy="0" rx="8" ry="18" fill="#A8C8A0" opacity="0.5"/>
+  </g>
+  <g opacity="0.1">
+    <circle cx="320" cy="80" r="50" fill="#84A98C"/>
+    <circle cx="80" cy="320" r="40" fill="#C77D82"/>
+  </g>
+</svg>

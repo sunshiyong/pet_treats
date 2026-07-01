@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2D2D2D"/>
+      <stop offset="50%" stop-color="#3D4A3E"/>
+      <stop offset="100%" stop-color="#4A5A4B"/>
+    </linearGradient>
+    <linearGradient id="circle1" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#84A98C" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#84A98C" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="circle2" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#C77D82" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#C77D82" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#FDFBF7" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#FDFBF7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="leaf1" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6B8D73"/>
+      <stop offset="100%" stop-color="#84A98C"/>
+    </linearGradient>
+    <linearGradient id="leaf2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C77D82"/>
+      <stop offset="100%" stop-color="#D49297"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <!-- Subtle texture dots -->
+  <g opacity="0.03">
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1" fill="white"/>
+    </pattern>
+    <rect width="1600" height="900" fill="url(#dots)"/>
+  </g>
+  <!-- Ambient glow -->
+  <ellipse cx="1100" cy="350" rx="500" ry="500" fill="url(#glow)"/>
+  <!-- Decorative circles -->
+  <circle cx="1300" cy="200" r="280" fill="url(#circle1)"/>
+  <circle cx="1400" cy="600" r="200" fill="url(#circle2)"/>
+  <!-- Botanical leaves - back -->
+  <g transform="translate(980,280) rotate(-15)" opacity="0.6">
+    <ellipse cx="0" cy="-40" rx="60" ry="20" fill="url(#leaf1)" transform="rotate(30)"/>
+    <ellipse cx="-30" cy="-60" rx="45" ry="16" fill="url(#leaf2)" transform="rotate(-10)"/>
+  </g>
+  <g transform="translate(1200,180) rotate(25)" opacity="0.4">
+    <ellipse cx="0" cy="-40" rx="55" ry="18" fill="url(#leaf1)" transform="rotate(-20)"/>
+  </g>
+  <!-- Herbs / Sprigs -->
+  <g stroke="#84A98C" stroke-width="2" fill="none" opacity="0.3">
+    <path d="M1050,380 C1060,350 1080,340 1090,310"/>
+    <path d="M1070,370 C1085,345 1100,335 1115,305"/>
+    <path d="M1130,400 C1140,370 1155,360 1170,330"/>
+  </g>
+  <!-- Pet treats bowl - main subject -->
+  <g transform="translate(1100,480)">
+    <!-- Bowl shadow -->
+    <ellipse cx="0" cy="95" rx="140" ry="20" fill="rgba(0,0,0,0.2)"/>
+    <!-- Bowl body -->
+    <path d="M-120,0 C-120,60 -80,90 0,90 C80,90 120,60 120,0 Z" fill="#FDFBF7" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <path d="M-110,5 C-110,55 -75,82 0,82 C75,82 110,55 110,5 Z" fill="#F0EDE8"/>
+    <!-- Rim -->
+    <ellipse cx="0" cy="0" rx="120" ry="25" fill="#FDFBF7" stroke="#E5E0D8" stroke-width="1.5"/>
+    <!-- Treats inside bowl -->
+    <circle cx="-35" cy="-5" r="22" fill="#D49297" opacity="0.9"/>
+    <circle cx="10" cy="-10" r="20" fill="#84A98C" opacity="0.85"/>
+    <ellipse cx="-15" cy="-20" rx="18" ry="12" fill="#C8A87C" opacity="0.9" transform="rotate(20,-15,-20)"/>
+    <circle cx="40" cy="0" r="16" fill="#A8B5A0" opacity="0.8"/>
+    <ellipse cx="-50" cy="-15" rx="14" ry="10" fill="#D4A0A0" opacity="0.8" transform="rotate(-15,-50,-15)"/>
+    <circle cx="25" cy="-20" r="12" fill="#B5A080" opacity="0.85"/>
+    <!-- Scattered treats -->
+    <circle cx="-70" cy="30" r="14" fill="#84A98C" opacity="0.5"/>
+    <circle cx="65" cy="35" r="12" fill="#D49297" opacity="0.4"/>
+    <ellipse cx="80" cy="25" rx="16" ry="10" fill="#C8A87C" opacity="0.35" transform="rotate(30,80,25)"/>
+  </g>
+  <!-- Pet paw -->
+  <g transform="translate(1380,500)" opacity="0.15">
+    <ellipse cx="0" cy="0" rx="12" ry="16" fill="#FDFBF7"/>
+    <ellipse cx="-16" cy="-18" rx="9" ry="12" fill="#FDFBF7"/>
+    <ellipse cx="0" cy="-22" rx="9" ry="12" fill="#FDFBF7"/>
+    <ellipse cx="16" cy="-18" rx="9" ry="12" fill="#FDFBF7"/>
+  </g>
+  <g transform="translate(920,550)" opacity="0.12">
+    <ellipse cx="0" cy="0" rx="10" ry="14" fill="#FDFBF7"/>
+    <ellipse cx="-14" cy="-16" rx="8" ry="10" fill="#FDFBF7"/>
+    <ellipse cx="0" cy="-20" rx="8" ry="10" fill="#FDFBF7"/>
+    <ellipse cx="14" cy="-16" rx="8" ry="10" fill="#FDFBF7"/>
+  </g>
+  <!-- Decorative wheat/grass stalks -->
+  <g stroke="rgba(255,255,255,0.08)" stroke-width="2" fill="none">
+    <path d="M200,900 C200,700 180,500 160,350"/>
+    <path d="M220,900 C220,720 240,520 250,380"/>
+    <path d="M240,900 C240,700 260,480 280,320"/>
+  </g>
+  <g stroke="rgba(132,169,140,0.12)" stroke-width="2" fill="none">
+    <path d="M1400,900 C1400,750 1450,600 1500,450"/>
+    <path d="M1430,900 C1430,780 1400,650 1380,500"/>
+    <path d="M1460,900 C1460,730 1480,580 1520,400"/>
+  </g>
+  <!-- Bottom fade -->
+  <rect x="0" y="700" width="1600" height="200" fill="url(#bg)" opacity="0.3"/>
+</svg>

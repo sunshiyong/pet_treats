@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bg02" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDFBF7"/><stop offset="100%" stop-color="#F5F0E8"/>
+    </linearGradient>
+    <linearGradient id="duck" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#D4A87C"/><stop offset="100%" stop-color="#B8896A"/>
+    </linearGradient>
+    <linearGradient id="fill" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#A37E9A"/><stop offset="100%" stop-color="#8B6D82"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg02)"/>
+  <ellipse cx="200" cy="340" rx="140" ry="18" fill="rgba(0,0,0,0.06)"/>
+  <ellipse cx="200" cy="340" rx="90" ry="12" fill="rgba(0,0,0,0.08)"/>
+  <g transform="translate(200,225)">
+    <ellipse cx="-25" cy="0" rx="40" ry="24" fill="url(#duck)" transform="rotate(-10)"/>
+    <path d="M-10,-10 Q5,-30 20,-10 Q15,5 -10,-10" fill="url(#fill)" opacity="0.9"/>
+    <ellipse cx="20" cy="-5" rx="35" ry="20" fill="url(#duck)" transform="rotate(15)"/>
+    <ellipse cx="-40" cy="10" rx="30" ry="18" fill="#C89870" transform="rotate(-25)"/>
+    <ellipse cx="5" cy="18" rx="28" ry="16" fill="#D4A87C" transform="rotate(5)"/>
+    <ellipse cx="40" cy="15" rx="24" ry="14" fill="#C89870" transform="rotate(30)"/>
+    <ellipse cx="-15" cy="-20" rx="25" ry="15" fill="url(#duck)" transform="rotate(-15)"/>
+    <path d="M-25,-15 Q-15,-35 0,-15" fill="url(#fill)" opacity="0.85"/>
+  </g>
+  <g opacity="0.12">
+    <circle cx="320" cy="80" r="50" fill="#C77D82"/>
+    <circle cx="80" cy="320" r="40" fill="#84A98C"/>
+  </g>
+</svg>
